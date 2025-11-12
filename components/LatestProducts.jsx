@@ -51,7 +51,10 @@ const ProductCard = ({ product }) => {
   const [intPrice, decPrice] = (product.price?.toFixed(2) || '0.00').split('.')
   const [intOrig, decOrig] = product.mrp?.toFixed(2).split('.') || ['0', '00']
 
-  const productName = product.name || product.title || 'Untitled Product'
+  // Truncate product name to 25 characters
+  const productName = (product.name || product.title || 'Untitled Product').length > 25
+    ? (product.name || product.title || 'Untitled Product').slice(0, 25) + '...'
+    : (product.name || product.title || 'Untitled Product')
 
   const handleAddToCart = (e) => {
     e.preventDefault()
@@ -176,7 +179,7 @@ const ProductCard = ({ product }) => {
 
 // BestSelling Component
 const BestSelling = () => {
-  const displayQuantity = 8
+  const displayQuantity = 10
   const products = useSelector((state) => state.product.list || [])
   const [curated, setCurated] = useState([])
 
@@ -196,20 +199,44 @@ const BestSelling = () => {
     .sort((a, b) => (b.rating?.length || b.ratingCount || 0) - (a.rating?.length || a.ratingCount || 0))
     .slice(0, displayQuantity)
 
+
   const shown = (curated.length ? curated : baseSorted).slice(0, displayQuantity)
+  const isLoading = products.length === 0;
 
   return (
-  <div className="px-4 my-16 max-w-7xl mx-auto">
-    <Title
-  title="Winter Sale"
-  description="Grab the best deals before they're gone!"
-  visibleButton={false}
-/>
+    <div className="px-4 my-16 max-w-7xl mx-auto">
+      <Title
+        title="Craziest sale of the year!"
+        description="Grab the best deals before they're gone!"
+        visibleButton={false}
+      />
 
-  <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-5 xl:grid-cols-5 gap-3 md:gap-6">
-        {shown.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+      <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-5 xl:grid-cols-5 gap-3 md:gap-6">
+        {isLoading
+          ? Array(displayQuantity).fill(0).map((_, idx) => (
+              <div key={idx} className="bg-white rounded-2xl border border-gray-200 shadow-sm animate-pulse flex flex-col w-full h-full relative">
+                <div className="relative w-full h-56 overflow-hidden bg-gray-100 rounded-t-2xl" />
+                <div className="mt-2 flex flex-col flex-grow justify-between p-3">
+                  <div>
+                    <div className="h-4 w-32 bg-gray-200 rounded mb-2" />
+                    <div className="flex items-center mt-1 gap-1">
+                      {Array(5).fill(0).map((_, i) => (
+                        <div key={i} className="h-3 w-3 bg-gray-200 rounded-full" />
+                      ))}
+                      <div className="h-3 w-8 bg-gray-100 rounded ml-1" />
+                    </div>
+                  </div>
+                  <div className="mt-2 flex items-center justify-between">
+                    <div className="h-4 w-20 bg-gray-200 rounded" />
+                    <div className="h-3 w-12 bg-gray-100 rounded" />
+                  </div>
+                </div>
+                <div className="absolute bottom-4 right-4 w-10 h-10 bg-gray-200 rounded-full" />
+              </div>
+            ))
+          : shown.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
       </div>
     </div>
   )

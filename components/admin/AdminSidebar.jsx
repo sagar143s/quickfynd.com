@@ -18,8 +18,9 @@ const AdminSidebar = () => {
         { name: 'Stores', href: '/admin/stores', icon: StoreIcon },
         { name: 'Approve Store', href: '/admin/approve', icon: ShieldCheckIcon },
         { name: 'Coupons', href: '/admin/coupons', icon: TicketPercentIcon  },
-    { name: 'Home Sections', href: '/admin/home-sections', icon: TagsIcon },
-    { name: 'Hero Banner', href: '/admin/home-hero', icon: ImageIcon },
+        { name: 'Home Sections', href: '/admin/home-sections', icon: TagsIcon },
+        { name: 'Hero Banner', href: '/admin/home-hero', icon: ImageIcon },
+        { name: 'Grid Products', href: '/admin/grid-products', icon: TagsIcon },
     ]
 
     return user && (

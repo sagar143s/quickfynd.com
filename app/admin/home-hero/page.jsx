@@ -1,13 +1,14 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import Link from 'next/link'
-import axios from 'axios'
-import toast from 'react-hot-toast'
 
 
-// Reusable editor for a HomeSelection section
-function SectionEditor({ label, sectionKey, maxSlides = 3 }){
+import { useState } from 'react';
+import Link from 'next/link';
+import ProductSelect from '@/components/ProductSelect'
+
+
+// Special editor for the Main Hero section (select products, not images)
+function MainHeroEditor({ label, sectionKey, maxSlides = 3 }) {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [selectionId, setSelectionId] = useState(null)
@@ -19,7 +20,7 @@ function SectionEditor({ label, sectionKey, maxSlides = 3 }){
     bannerCtaLink: '/shop',
     isActive: true,
     sortOrder: 0,
-    slides: [], // array of image URLs only
+    slides: [], // array of product IDs
   })
 
   // Load existing selection
@@ -45,25 +46,13 @@ function SectionEditor({ label, sectionKey, maxSlides = 3 }){
     } catch (e) { console.error(e) } finally { setLoading(false) }
   })() }, [sectionKey])
 
-  const uploadImage = async (file, index = null) => {
-    const fd = new FormData(); fd.append('image', file)
-    try {
-      const { data } = await axios.post('/api/admin/upload-image', fd, { headers: { 'Content-Type': 'multipart/form-data' } })
-      const url = data?.url || data?.imageUrl
-      if (!url) return toast.error('Upload failed')
-      if (index === null) {
-        setForm(f => ({ ...f, slides: [...f.slides, url].slice(0, maxSlides) }))
-      } else {
-        setForm(f => { const s = [...f.slides]; s[index] = url; return { ...f, slides: s } })
-      }
-    } catch (e) { toast.error('Upload failed') }
+  // Add a product to slides (unique only)
+  const addProduct = (productId) => {
+    if (!productId || form.slides.includes(productId)) return;
+    setForm(f => ({ ...f, slides: [...f.slides, productId].slice(0, maxSlides) }))
   }
-
-  const removeSlide = (i) => setForm(f => ({
-    ...f,
-    slides: f.slides.filter((_, x) => x !== i),
-    slidesData: Array.isArray(f.slidesData) ? f.slidesData.filter((_, x) => x !== i) : f.slidesData
-  }))
+  // Remove a product from slides
+  const removeProduct = (i) => setForm(f => ({ ...f, slides: f.slides.filter((_, x) => x !== i) }))
 
   const save = async (e) => {
     e.preventDefault(); setSaving(true)
@@ -114,34 +103,21 @@ function SectionEditor({ label, sectionKey, maxSlides = 3 }){
       </div>
 
       <div className='space-y-4'>
-        <div className='flex items-center justify-between'>
-          <h3 className='text-sm font-medium text-gray-800'>Slides (max {maxSlides})</h3>
-          <input type='file' accept='image/*' onChange={e => e.target.files && uploadImage(e.target.files[0], null)} />
+        <div className='flex items-center gap-3'>
+          <ProductSelect value={''} onChange={addProduct} />
+          <span className='text-xs text-gray-500'>Add product (max {maxSlides})</span>
         </div>
         {form.slides.length === 0 && (
-          <p className='text-sm text-gray-500'>No slides yet. Upload an image to add a slide.</p>
+          <p className='text-sm text-gray-500'>No products yet. Select a product to add.</p>
         )}
         <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
-          {form.slides.map((it, i) => {
-            let url = it
-            try{
-              if(typeof it === 'string' && it.trim().startsWith('{')){
-                const parsed = JSON.parse(it)
-                if(parsed?.image) url = parsed.image
-              }
-            }catch{}
-            return (
-            <div key={i} className='border rounded-lg p-4 space-y-2'>
-              <img src={url} className='w-full aspect-video object-cover rounded-md border' />
-              <div className='flex items-center justify-between gap-2'>
-                <input type='file' accept='image/*' onChange={e => e.target.files && uploadImage(e.target.files[0], i)} />
-                <button type='button' className='text-red-600 text-sm' onClick={() => removeSlide(i)}>Remove</button>
-              </div>
+          {form.slides.map((productId, i) => (
+            <div key={productId} className='border rounded-lg p-4 space-y-2 flex flex-col items-center'>
+              <span className='font-medium text-gray-700'>Product ID: {productId}</span>
+              <button type='button' className='text-red-600 text-sm' onClick={() => removeProduct(i)}>Remove</button>
             </div>
-            )
-          })}
+          ))}
         </div>
-        
       </div>
 
       <div className='flex items-center gap-3 justify-end'>
@@ -152,6 +128,12 @@ function SectionEditor({ label, sectionKey, maxSlides = 3 }){
 }
 
 export default function AdminHomeHeroPage() {
+  const [customSections, setCustomSections] = useState([]);
+  const addCustomSection = () => {
+    const key = `custom_home_section_${Date.now()}`;
+    setCustomSections([...customSections, { key, label: '', maxSlides: 6 }]);
+  };
+
   return (
     <div className='max-w-6xl mx-auto p-6 space-y-6'>
       <div className='flex items-center justify-between'>
@@ -159,14 +141,33 @@ export default function AdminHomeHeroPage() {
         <Link href='/admin/home-sections' className='text-sm text-blue-600'>Home Sections</Link>
       </div>
 
-      {/* Section 1: Main banner with 3 slides */}
-      <SectionEditor label='Section 1 · Main Hero' sectionKey='home_hero' maxSlides={3} />
+      {/* Section 1: Main banner with 3 product slides */}
+      <MainHeroEditor label='Section 1 · Main Hero' sectionKey='home_hero' maxSlides={3} />
 
       {/* Section 2: Right Card Top */}
       <SectionEditor label='Section 2 · Right Card (Top)' sectionKey='home_hero_right_1' maxSlides={3} />
 
       {/* Section 3: Right Card Bottom */}
       <SectionEditor label='Section 3 · Right Card (Bottom)' sectionKey='home_hero_right_2' maxSlides={3} />
+
+      {/* Custom Home Sections */}
+      {customSections.map((section, idx) => (
+        <SectionEditor
+          key={section.key}
+          label={section.label || `Custom Section ${idx + 1}`}
+          sectionKey={section.key}
+          maxSlides={section.maxSlides}
+        />
+      ))}
+      <div className='flex justify-end'>
+        <button
+          type='button'
+          className='px-4 py-2 bg-blue-600 text-white rounded-lg mt-4'
+          onClick={addCustomSection}
+        >
+          + Add New Home Section
+        </button>
+      </div>
     </div>
   )
 }

@@ -1,5 +1,5 @@
-'use client'
 
+"use client";
 export const dynamic = 'force-dynamic'
 import { useEffect, useState } from "react"
 import Loading from "@/components/Loading"
@@ -9,6 +9,10 @@ import axios from "axios"
 import toast from "react-hot-toast"
 import { Package, Truck, X, Download, Printer } from "lucide-react"
 import { downloadInvoice, printInvoice } from "@/lib/generateInvoice"
+
+// Add updateTrackingDetails function
+// (must be inside the component, not top-level)
+
 
 
 
@@ -24,11 +28,28 @@ export default function StoreOrders() {
         courier: ''
     });
 
-
     const { getToken } = useAuth();
 
-
-    const fetchOrders = async () => {
+    // Function to update tracking details and notify customer
+    const updateTrackingDetails = async () => {
+        if (!selectedOrder) return;
+        try {
+            const token = await getToken();
+            await axios.post('/api/store/orders/update-tracking', {
+                orderId: selectedOrder.id,
+                ...trackingData
+            }, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            toast.success('Tracking details updated & customer notified!');
+            // Optionally refresh orders or close modal
+            fetchOrders();
+            setIsModalOpen(false);
+        } catch (error) {
+            toast.error('Failed to update tracking details');
+        }
+    };
+    // Move openModal and closeModal to top level
     const openModal = (order) => {
         setSelectedOrder(order);
         setIsModalOpen(true);
@@ -38,6 +59,8 @@ export default function StoreOrders() {
         setIsModalOpen(false);
         setSelectedOrder(null);
     };
+
+    const fetchOrders = async () => {
         try {
             const token = await getToken();
             const { data } = await axios.get('/api/store/orders', {headers: { Authorization: `Bearer ${token}` }});

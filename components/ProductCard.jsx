@@ -33,6 +33,9 @@ const ProductCard = ({ product }) => {
         toast.success('Added to cart')
     }
 
+    // Limit product name to 50 characters
+    const displayName = product.name.length > 50 ? product.name.slice(0, 50) + '…' : product.name;
+
     return (
         <Link href={`/product/${product.slug}`} className='group w-full relative'>
             <div className='bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col relative h-full min-h-[160px] md:min-h-[200px]'>
@@ -63,7 +66,7 @@ const ProductCard = ({ product }) => {
 
                 {/* Product Details */}
                 <div className='p-2 md:p-4 flex flex-col gap-1 md:gap-2 text-left'>
-                    <p className='font-bold text-gray-900 text-base md:text-lg truncate'>{product.name}</p>
+                    <p className='font-bold text-gray-900 text-base md:text-lg truncate'>{displayName}</p>
                     {/* Ratings - No Border */}
                     <div className='flex items-center gap-1 mt-1'>
                         {product.ratingCount > 0 ? (
