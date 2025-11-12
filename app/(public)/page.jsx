@@ -90,7 +90,7 @@ export default function Home() {
                 {/* First row: first two sections side by side */}
                 {sections.length >= 2 && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                        <ProductSection
+                        {/* <ProductSection
                             key={0}
                             title={sections[0].title}
                             products={sections[0].products}
@@ -101,7 +101,7 @@ export default function Home() {
                             title={sections[1].title}
                             products={sections[1].products}
                             viewAllLink={sections[1].viewAllLink}
-                        />
+                        /> */}
                     </div>
                 )}
                 {/* Additional sections below */}
@@ -116,7 +116,7 @@ export default function Home() {
             </div>
             {/* <OurSpecs /> */}
             {/* <Newsletter /> */}
-            <BrandDirectory/>
+            {/* <BrandDirectory/> */}
         </div>
     );
 }

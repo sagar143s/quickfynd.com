@@ -61,8 +61,8 @@ const Footer = () => {
     <footer className="bg-black text-slate-200 border-t border-slate-800 pt-0 lg:pt-12">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Main Footer Content */}
-                <div className="py-2 grid grid-cols-2 gap-2 md:grid-cols-2 lg:grid-cols-6 md:gap-4 lg:gap-6">
-                    {/* Brand Section - Takes 2 columns on large screens */}
+                {/* <div className="py-2 grid grid-cols-2 gap-2 md:grid-cols-2 lg:grid-cols-6 md:gap-4 lg:gap-6">
+                    Brand Section - Takes 2 columns on large screens
                     <div className="col-span-2 lg:col-span-2">
                         <Link href="/" className="inline-block mb-4">
                             <Image
@@ -78,7 +78,7 @@ const Footer = () => {
                             Your ultimate destination for the latest gadgets and electronics. Quality products, fast delivery, and exceptional service.
                         </p>
                         
-                        {/* Contact Info */}
+                        Contact Info
                         <div className="space-y-3 mb-6">
                             <div className="flex items-center gap-2 text-sm">
                                 <MailIcon />
@@ -92,10 +92,10 @@ const Footer = () => {
                             </div>
                         </div>
 
-                        {/* Social Icons removed from brand section to avoid duplication */}
+                        Social Icons removed from brand section to avoid duplication
                     </div>
 
-                    {/* Link Sections - Each takes 1 column */}
+                    Link Sections - Each takes 1 column
                     {linkSections.map((section, index) => (
                         <div key={index}>
                             <h3 className="text-white font-semibold text-sm mb-4 tracking-wider">{section.title}</h3>
@@ -113,7 +113,7 @@ const Footer = () => {
                             </ul>
                         </div>
                     ))}
-                </div>
+                </div> */}
 
                 {/* Bottom Bar - Normal flow, always at bottom of footer */}
                 <div className="border-t border-slate-800 py-8 mt-4 w-full flex flex-col items-center justify-end">

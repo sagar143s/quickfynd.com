@@ -260,7 +260,7 @@ const Hero = () => {
 
       {/* === Categories Section (hidden on mobile to show only the main slider) === */}
       <div className="hidden sm:block">
-        <CategoriesMarquee />
+        {/* <CategoriesMarquee /> */}
       </div>
     </div>
   )
