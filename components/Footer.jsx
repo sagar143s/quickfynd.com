@@ -39,7 +39,7 @@ const Footer = () => {
                 { text: "Shipping Policy", path: '/shipping-policy', icon: null },
                 { text: "Return Policy", path: '/return-policy', icon: null },
             ]
-        },
+        },  
         {
             title: "ABOUT QUI",
             links: [
@@ -55,7 +55,7 @@ const Footer = () => {
         { icon: FacebookIcon, link: "https://www.facebook.com/profile.php?id=61582829276428" },
         { icon: InstagramIcon, link: "https://www.instagram.com" },
         { icon: LinkedinIcon, link: "https://www.linkedin.com" },
-    ]
+    ]  
 
     return (
     <footer className="bg-black text-slate-200 border-t border-slate-800 pt-0 lg:pt-12">
