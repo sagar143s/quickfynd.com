@@ -5,6 +5,8 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import React from 'react'
 import MetaPixel from "@/components/MetaPixel";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const outfit = Outfit({ subsets: ["latin"], weight: ["400", "500", "600"] });
 
@@ -28,13 +30,9 @@ export default function RootLayout({ children }) {
             <link rel="preconnect" href={ikOrigin} crossOrigin="anonymous" />
           </>
         )}
-          {/* Meta Pixel Code moved to Client Component */}
-       
-        {/* End Meta Pixel Code */}
-
       </head>
       <body className={`${outfit.className} antialiased`} suppressHydrationWarning>
-          <MetaPixel />
+        <MetaPixel />
         {isClerkConfigured ? (
           <ClerkProvider publishableKey={clerkPk}>
             <StoreProvider>

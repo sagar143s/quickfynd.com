@@ -34,12 +34,12 @@ const Footer = () => {
         {
             title: "POLICIES",
             links: [
-                { text: "Terms & Conditions", path: '/terms', icon: null },
-                { text: "Privacy Policy", path: '/privacy-policy', icon: null },
-                { text: "Shipping Policy", path: '/shipping-policy', icon: null },
-                { text: "Return Policy", path: '/return-policy', icon: null },
+                { text: "Terms & Conditions", path: '/terms-and-conditions', icon: null },
+                { text: "Privacy Policy", path: '/privacy', icon: null },
+                { text: "Shipping Policy", path: '/shipping', icon: null },
+                { text: "Cancellation & Refunds", path: '/cancellation-refunds', icon: null },
             ]
-        },  
+        },
         {
             title: "ABOUT QUI",
             links: [
@@ -47,6 +47,7 @@ const Footer = () => {
                 { text: "Create Your Store", path: '/create-store', icon: null },
                 { text: "Become a Seller", path: '/create-store', icon: null },
                 { text: "Careers", path: '/careers', icon: null },
+                { text: "Contact Us", path: '/contact-us', icon: null },
             ]
         }
     ];
@@ -57,12 +58,12 @@ const Footer = () => {
     ];
 
     return (
-    <footer className="bg-black text-slate-200 border-t border-slate-800 pt-0 lg:pt-12">
+        <footer className="bg-black text-slate-200 border-t border-slate-800 pt-0 lg:pt-12">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Main Footer Content */}
-                <div className="py-2 grid grid-cols-2 gap-2 md:grid-cols-2 lg:grid-cols-6 md:gap-4 lg:gap-6">
-                    {/* Brand Section - Takes 2 columns on large screens */}
-                    <div className="col-span-2 lg:col-span-2">
+                <div className="py-2 grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-5 md:gap-8 lg:gap-10">
+                    {/* Brand Section - 1 column */}
+                    <div className="col-span-2 md:col-span-1 flex flex-col">
                         <Link href="/" className="inline-block mb-4">
                             <Image
                                 src={Logo}
@@ -73,7 +74,7 @@ const Footer = () => {
                                 priority
                             />
                         </Link>
-                        <p className="text-sm text-slate-400 leading-relaxed mb-6 max-w-sm">
+                        <p className="text-sm text-slate-400 leading-relaxed mb-6 max-w-xs">
                             Your ultimate destination for the latest gadgets and electronics. Quality products, fast delivery, and exceptional service.
                         </p>
                         {/* Contact Info */}
@@ -89,17 +90,16 @@ const Footer = () => {
                                 <span className="text-slate-400">Dubai, UAE</span>
                             </div>
                         </div>
-                        {/* Social Icons removed from brand section to avoid duplication */}
                     </div>
-                    {/* Link Sections - Each takes 1 column */}
+                    {/* All Link Sections in a single row */}
                     {linkSections.map((section, index) => (
-                        <div key={index}>
+                        <div key={index} className="mt-8 md:mt-0">
                             <h3 className="text-white font-semibold text-sm mb-4 tracking-wider">{section.title}</h3>
                             <ul className="space-y-3">
                                 {section.links.map((link, i) => (
                                     <li key={i}>
-                                        <Link 
-                                            href={link.path} 
+                                        <Link
+                                            href={link.path}
                                             className="text-sm text-slate-400 hover:text-white transition inline-block"
                                         >
                                             {link.text}
@@ -110,17 +110,18 @@ const Footer = () => {
                         </div>
                     ))}
                 </div>
-
-                {/* Bottom Bar - Normal flow, always at bottom of footer */}
-                <div className="border-t border-slate-800 py-8 mt-4 w-full flex flex-col items-center justify-end">
+                {/* Divider */}
+                <div className="border-t border-slate-800 mt-8" />
+                {/* Bottom Bar */}
+                <div className="py-8 w-full flex flex-col items-center justify-end">
                     <div className="flex flex-col sm:flex-row justify-between items-center gap-2 w-full max-w-7xl px-4">
                         <div className="flex items-center gap-3 mb-2 sm:mb-0">
                             {socialIcons.map((item, i) => (
-                                <Link 
-                                    href={item.link} 
-                                    key={i} 
-                                    target="_blank" 
-                                    rel="noopener noreferrer" 
+                                <Link
+                                    href={item.link}
+                                    key={i}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                     className="flex items-center justify-center w-8 h-8 bg-white/5 hover:bg-white/10 border border-slate-800 hover:border-slate-700 transition rounded-lg"
                                 >
                                     <item.icon />
