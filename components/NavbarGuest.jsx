@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import Image from "next/image";
-import Logo from "../assets/logo/Qui Logo G (1).png";
+import Logo from "../assets/Asset11.png";
 
 const NavbarGuest = () => {
   const router = useRouter();

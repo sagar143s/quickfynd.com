@@ -2,7 +2,7 @@
 import { useUser, UserButton } from "@clerk/nextjs"
 import Link from "next/link"
 import Image from "next/image";
-import Logo from "../../assets/logo/Qui Logo G (1).png";
+import Logo from "../../assets/Asset11.png";
 
 const AdminNavbar = () => {
     const {user} = useUser()

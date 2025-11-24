@@ -17,6 +17,20 @@ import { downloadAwbBill } from "@/lib/generateAwbBill"
 
 
 export default function StoreOrders() {
+        // Update order status function
+        const updateOrderStatus = async (orderId, newStatus) => {
+            try {
+                const token = await getToken();
+                await axios.put(`/api/store/orders/${orderId}`,
+                    { status: newStatus },
+                    { headers: { Authorization: `Bearer ${token}` } }
+                );
+                toast.success('Order status updated!');
+                fetchOrders();
+            } catch (error) {
+                toast.error(error?.response?.data?.error || 'Failed to update order status');
+            }
+        };
     const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || 'AED';
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -86,7 +100,7 @@ export default function StoreOrders() {
             {orders.length === 0 ? (
                 <p>No orders found</p>
             ) : (
-                <div className="overflow-x-auto max-w-4xl rounded-md shadow border border-gray-200">
+                <div className="overflow-x-auto w-full rounded-md shadow border border-gray-200">
                     <table className="w-full text-sm text-left text-gray-600">
                         <thead className="bg-gray-50 text-gray-700 text-xs uppercase tracking-wider">
                             <tr>

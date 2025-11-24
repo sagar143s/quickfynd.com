@@ -10,7 +10,7 @@ import { useUser, useClerk, UserButton, useAuth } from "@clerk/nextjs";
 import Image from "next/image";
 import axios from "axios";
 import toast from "react-hot-toast";
-import Logo from "../assets/logo/Qui Logo G (1).png";
+import Logo from "../assets/Asset11.png";
 import Truck from '../assets/delivery.png';
 
 const Navbar = () => {

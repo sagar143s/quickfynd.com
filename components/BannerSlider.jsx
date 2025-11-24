@@ -3,12 +3,12 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Banner1 from '../assets/bannersection3/Wide Banner 1.webp';
-import Banner2 from '../assets/bannersection3/Wide Banner 2.webp';
+import Banner2 from '../assets/bannersection3/Banner C.webp';
 
 // Banner data
 const banners = [
-  { image: Banner1, link: "/category/sofas" },
-  { image: Banner2, link: "/category/beds" },
+  { image: Banner2, link: "/category/sofas" },
+  { image: Banner1, link: "/category/beds" },
 ];
 
 const BannerSlider = () => {

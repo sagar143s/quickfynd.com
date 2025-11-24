@@ -20,7 +20,7 @@ export default function MetaPixel() {
       s.parentNode.insertBefore(t, s);
     })(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
 
-    window.fbq && window.fbq("init", "1509420293656480");
+    window.fbq && window.fbq("init", "");
     window.fbq && window.fbq("track", "PageView");
   }, []);
 
