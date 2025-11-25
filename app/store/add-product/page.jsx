@@ -225,25 +225,33 @@ export default function ProductForm({ product = null, onClose, onSubmitSuccess }
 
     const onSubmitHandler = async (e) => {
         e.preventDefault()
-        try {
-            const hasImage = Object.values(images).some(img => img)
-            if (!hasImage) return toast.error('Please upload at least one product image')
+        // User-friendly validation for required fields
+        const { name, description, category, slug, price, mrp } = productInfo;
+        const hasImage = Object.values(images).some(img => img);
+        if (!name || !name.trim()) return toast.error('Product name is required');
+        if (!description || !description.trim()) return toast.error('Description is required');
+        if (!category || !category.trim()) return toast.error('Category is required');
+        if (!slug || !slug.trim()) return toast.error('Slug is required');
+        if (!hasImage) return toast.error('Please upload at least one product image');
+        if (!hasVariants && (!price || isNaN(Number(price)) || !mrp || isNaN(Number(mrp)))) {
+            return toast.error('Price and MRP are required and must be valid numbers');
+        }
 
-            setLoading(true)
-            const formData = new FormData()
+        setLoading(true)
+        const formData = new FormData()
 
-            Object.entries(productInfo).forEach(([key, value]) => {
-                if (["colors", "sizes"].includes(key)) {
-                    formData.append(key, JSON.stringify(value))
-                } else if (key === 'reviews') {
-                    const cleanReviews = value.map(({ name, rating, comment }) => ({ name, rating, comment }))
-                    formData.append('reviews', JSON.stringify(cleanReviews))
-                } else if (key === 'slug') {
-                    formData.append('slug', value.trim())
-                } else {
-                    formData.append(key, value)
-                }
-            })
+        Object.entries(productInfo).forEach(([key, value]) => {
+            if (["colors", "sizes"].includes(key)) {
+                formData.append(key, JSON.stringify(value))
+            } else if (key === 'reviews') {
+                const cleanReviews = value.map(({ name, rating, comment }) => ({ name, rating, comment }))
+                formData.append('reviews', JSON.stringify(cleanReviews))
+            } else if (key === 'slug') {
+                formData.append('slug', value.trim())
+            } else {
+                formData.append(key, value)
+            }
+        })
 
             // Attributes bucket for extra details
             const attributes = {
