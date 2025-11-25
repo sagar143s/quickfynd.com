@@ -32,7 +32,7 @@ Subject: Order Shipped - #AB12CD34
 Great news, John! Your order has been shipped!
 
 Order ID: clxxx...
-
+    
 ┌─────────────────────────────┐
 │   Tracking Information      │
 ├─────────────────────────────┤
